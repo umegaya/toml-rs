@@ -1796,7 +1796,7 @@ impl<'a> Deserializer<'a> {
     // great to defer parsing everything until later.
     fn inline_table(&mut self) -> Result<(Span, Vec<TablePair<'a>>), Error> {
         let mut ret = Vec::new();
-        self.eat_whitespace()?;
+        self.eat_whitespace_or_newline()?;
         if let Some(span) = self.eat_spanned(Token::RightBrace)? {
             return Ok((span, ret));
         }
@@ -1808,12 +1808,12 @@ impl<'a> Deserializer<'a> {
             let value = self.value()?;
             self.add_dotted_key(key, value, &mut ret)?;
 
-            self.eat_whitespace()?;
+            self.eat_whitespace_or_newline()?;
             if let Some(span) = self.eat_spanned(Token::RightBrace)? {
                 return Ok((span, ret));
             }
             self.expect(Token::Comma)?;
-            self.eat_whitespace()?;
+            self.eat_whitespace_or_newline()?;
         }
     }
 
@@ -1927,6 +1927,12 @@ impl<'a> Deserializer<'a> {
     fn eat_whitespace(&mut self) -> Result<(), Error> {
         self.tokens
             .eat_whitespace()
+            .map_err(|e| self.token_error(e))
+    }
+
+    fn eat_whitespace_or_newline(&mut self) -> Result<(), Error> {
+        self.tokens
+            .eat_whitespace_or_newline()
             .map_err(|e| self.token_error(e))
     }
 
