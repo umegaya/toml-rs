@@ -218,13 +218,6 @@ impl<'a> Tokenizer<'a> {
         Ok(())
     }
 
-    pub fn eat_whitespace_or_newline(&mut self) -> Result<(), Error> {
-        while self.eatc(' ') || self.eatc('\t') || self.eatc('\n') {
-            // ...
-        }
-        Ok(())
-    }
-
     pub fn eat_comment(&mut self) -> Result<bool, Error> {
         if !self.eatc('#') {
             return Ok(false);
