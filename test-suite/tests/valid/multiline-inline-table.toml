@@ -1,0 +1,15 @@
+root = {
+    # comment before inline table key
+    flag = true, # comment after inline table key-value entry
+    # comment before 2nd inline table key-value entry
+    float = 3.14,
+    nested = { # comment after opened blacket before linefeed
+        array = [1, 2, 3], 
+        array2 = ["a", "b", "c"],
+        mutliline_string = """
+foo
+bar
+baz
+"""
+    }, # comment after last key value entry, before closing bracket
+}

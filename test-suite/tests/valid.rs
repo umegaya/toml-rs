@@ -247,6 +247,11 @@ test!(
     include_str!("valid/long-integer.json")
 );
 test!(
+    multiline_inline_table,
+    include_str!("valid/multiline-inline-table.toml"),
+    include_str!("valid/multiline-inline-table.json")
+);
+test!(
     multiline_string,
     include_str!("valid/multiline-string.toml"),
     include_str!("valid/multiline-string.json")

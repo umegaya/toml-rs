@@ -440,14 +440,13 @@ fn invalid_bare_numeral() {
 fn inline_tables() {
     "a = {}".parse::<Value>().unwrap();
     "a = {b=1}".parse::<Value>().unwrap();
+    "a = {a=1,}".parse::<Value>().unwrap(); // now trailing comma is valid
+    "a = {\n}".parse::<Value>().unwrap(); // valid multiline inline table
     "a = {   b   =   1    }".parse::<Value>().unwrap();
     "a = {a=1,b=2}".parse::<Value>().unwrap();
     "a = {a=1,b=2,c={}}".parse::<Value>().unwrap();
+    "a = {a=1,\nb=[\n],\nc={}}".parse::<Value>().unwrap();
 
-    bad!(
-        "a = {a=1,}",
-        "expected a table key, found a right brace at line 1 column 10"
-    );
     bad!(
         "a = {,}",
         "expected a table key, found a comma at line 1 column 6"
@@ -455,10 +454,6 @@ fn inline_tables() {
     bad!(
         "a = {a=1,a=1}",
         "duplicate key: `a` for key `a` at line 1 column 5"
-    );
-    bad!(
-        "a = {\n}",
-        "expected a table key, found a newline at line 1 column 6"
     );
     bad!(
         "a = {",

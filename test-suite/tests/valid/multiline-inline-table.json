@@ -1,0 +1,28 @@
+{
+    "root": {
+        "flag": {"type": "bool", "value": "true"},
+        "float": {"type": "float", "value": "3.14"},
+        "nested": {
+            "array": {
+                "type": "array", 
+                "value": [
+                    {"type": "integer", "value": "1"},
+                    {"type": "integer", "value": "2"},
+                    {"type": "integer", "value": "3"}
+                ]
+            },
+            "array2": {
+                "type": "array", 
+                "value": [
+                    {"type": "string", "value": "a"},
+                    {"type": "string", "value": "b"},
+                    {"type": "string", "value": "c"}
+                ]
+            },
+            "mutliline_string": {
+                "type": "string", 
+                "value": "foo\nbar\nbaz\n"
+            }
+        }
+    }
+}
