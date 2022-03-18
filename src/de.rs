@@ -1806,27 +1806,19 @@ impl<'a> Deserializer<'a> {
     // great to defer parsing everything until later.
     fn inline_table(&mut self) -> Result<(Span, Vec<TablePair<'a>>), Error> {
         let mut ret = Vec::new();
-        self.intermediate()?;
-        if let Some(span) = self.eat_spanned(Token::RightBrace)? {
-            return Ok((span, ret));
-        }
         loop {
-            // allow comment before table key
+            // allow comment before table key and after single KVP entry
             self.intermediate()?;
+            if let Some(span) = self.eat_spanned(Token::RightBrace)? {
+                return Ok((span, ret));
+            }
             let key = self.dotted_key()?;
             self.eat_whitespace()?;
             self.expect(Token::Equals)?;
             self.eat_whitespace()?;
             let value = self.value()?;
             self.add_dotted_key(key, value, &mut ret)?;
-
-            self.intermediate()?;
-            if let Some(span) = self.eat_spanned(Token::RightBrace)? {
-                return Ok((span, ret));
-            }
-            self.expect(Token::Comma)?;
-            // also, allow comment after comma, which indicates value end.
-            self.intermediate()?;
+            self.eat(Token::Comma)?;
         }
     }
 
